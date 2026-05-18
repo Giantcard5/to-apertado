@@ -1,0 +1,48 @@
+{
+  "name": "api",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "db:migrate": "node-pg-migrate up",
+    "db:create": "node-pg-migrate create",
+    "osm:import": "tsx src/services/osm-import.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3",
+    "@aws-sdk/s3-request-presigner": "^3",
+    "@fastify/cookie": "^9",
+    "@fastify/cors": "^9",
+    "@fastify/multipart": "^8",
+    "@fastify/passport": "^2",
+    "@fastify/rate-limit": "^9",
+    "@fastify/session": "^10",
+    "@to-apertado/types": "workspace:*",
+    "dotenv": "^17.4.2",
+    "fastify": "^4",
+    "fastify-plugin": "^5.1.0",
+    "jsonwebtoken": "^9",
+    "node-pg-migrate": "^7",
+    "passport-google-oauth20": "^2",
+    "pg": "^8",
+    "pino-pretty": "^11",
+    "zod": "^3"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9",
+    "@types/node": "^20",
+    "@types/passport-google-oauth20": "^2",
+    "@types/pg": "^8",
+    "tsx": "^4",
+    "typescript": "^5"
+  },
+  "migrate": {
+    "migrationsDir": "src/db/migrations",
+    "databaseUrl": {
+      "ENV": "DATABASE_URL"
+    }
+  }
+}
