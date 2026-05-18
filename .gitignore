@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+.next/
+.turbo/
+dist/
+build/
+out/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+*.swp
+
+# Claude Code — configurações e skills locais (não commitar)
+.claude/
+.agents/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+.vercel
+.railway
