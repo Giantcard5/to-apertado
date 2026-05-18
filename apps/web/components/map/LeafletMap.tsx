@@ -6,8 +6,12 @@ import 'leaflet/dist/leaflet.css'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 
+import { useEffect, useState } from 'react'
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet'
-import { SP_CENTER, DEFAULT_ZOOM, MIN_ZOOM, MAX_ZOOM, CLUSTER_ZOOM_THRESHOLD } from '@/lib/leaflet-config'
+import {
+  SP_CENTER, DEFAULT_ZOOM, MIN_ZOOM, MAX_ZOOM, CLUSTER_ZOOM_THRESHOLD,
+  TILE_LIGHT, TILE_DARK, TILE_ATTRIBUTION,
+} from '@/lib/leaflet-config'
 import { BathroomPin } from './BathroomPin'
 import { MapCluster } from './MapCluster'
 import { LocateButton } from './LocateButton'
@@ -36,6 +40,7 @@ interface LeafletMapProps {
   center: [number, number]
   zoom?: number
   userLocation: { lat: number; lng: number } | null
+  selectedId?: string | null
   onMapMove: (lat: number, lng: number, zoom: number) => void
   onPinClick?: (bathroom: BathroomPinType) => void
   onLocateRequest: () => void
@@ -48,6 +53,7 @@ export default function LeafletMap({
   center,
   zoom = DEFAULT_ZOOM,
   userLocation,
+  selectedId,
   onMapMove,
   onPinClick,
   onLocateRequest,
@@ -55,6 +61,19 @@ export default function LeafletMap({
   currentZoom = DEFAULT_ZOOM,
 }: LeafletMapProps) {
   const useCluster = currentZoom < CLUSTER_ZOOM_THRESHOLD
+
+  // Detect dark mode for tile switching
+  const [isDark, setIsDark] = useState(false)
+  useEffect(() => {
+    const html = document.documentElement
+    const check = () => setIsDark(html.classList.contains('dark'))
+    check()
+    const observer = new MutationObserver(check)
+    observer.observe(html, { attributes: true, attributeFilter: ['class'] })
+    return () => observer.disconnect()
+  }, [])
+
+  const tileUrl = isDark ? TILE_DARK : TILE_LIGHT
 
   return (
     <MapContainer
@@ -66,17 +85,24 @@ export default function LeafletMap({
       className="h-full w-full"
     >
       <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        key={tileUrl}
+        url={tileUrl}
+        attribution={TILE_ATTRIBUTION}
+        maxZoom={MAX_ZOOM}
       />
 
       <MapEvents onMove={onMapMove} />
 
       {useCluster ? (
-        <MapCluster bathrooms={bathrooms} onPinClick={onPinClick} />
+        <MapCluster bathrooms={bathrooms} onPinClick={onPinClick} selectedId={selectedId} />
       ) : (
         bathrooms.map(b => (
-          <BathroomPin key={b.id} bathroom={b} onClick={onPinClick} />
+          <BathroomPin
+            key={b.id}
+            bathroom={b}
+            onClick={onPinClick}
+            selected={b.id === selectedId}
+          />
         ))
       )}
 

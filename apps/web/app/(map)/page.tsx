@@ -73,8 +73,17 @@ export default function MapPage() {
       />
 
       {isLoading && (
-        <div className="absolute left-4 top-14 z-[1000] rounded-full bg-white px-3 py-1 text-xs text-gray-500 shadow">
-          Buscando banheiros...
+        <div className="absolute left-4 top-14 z-[1000] flex items-center gap-2 rounded-full glass shadow-card px-4 py-2 text-xs font-medium text-text-muted dark:glass-dark dark:text-gray-400">
+          <span className="flex gap-0.5">
+            {[0,1,2].map(i => (
+              <span
+                key={i}
+                className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce"
+                style={{ animationDelay: `${i * 100}ms` }}
+              />
+            ))}
+          </span>
+          Buscando banheiros próximos
         </div>
       )}
     </div>

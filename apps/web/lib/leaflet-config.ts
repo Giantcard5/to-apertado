@@ -6,6 +6,10 @@ export const MIN_ZOOM = 10
 export const MAX_ZOOM = 19
 export const CLUSTER_ZOOM_THRESHOLD = 14
 
+export const TILE_LIGHT = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
+export const TILE_DARK  = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+export const TILE_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+
 /** Radius (meters) to fetch bathrooms based on zoom level */
 export function radiusFromZoom(zoom: number): number {
   if (zoom >= 16) return 500
@@ -14,11 +18,11 @@ export function radiusFromZoom(zoom: number): number {
   return 5000
 }
 
-/** Color for pin based on avg_rating */
+/** Color for pin based on avg_rating — matches new brand palette */
 export function pinColor(avgRating: number | null, status: string): string {
-  if (status === 'needs_review') return '#F97316'
-  if (avgRating == null) return '#9CA3AF'
-  if (avgRating >= 4) return '#2563EB'
-  if (avgRating >= 2) return '#F59E0B'
-  return '#DC2626'
+  if (status === 'needs_review') return '#FF6B35'
+  if (avgRating == null) return '#9BAAB8'
+  if (avgRating >= 4) return '#1A6BFF'
+  if (avgRating >= 2) return '#FFB547'
+  return '#FF4757'
 }

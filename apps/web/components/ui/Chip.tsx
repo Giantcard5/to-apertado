@@ -13,10 +13,12 @@ export function Chip({ label, selected = false, onClick, className }: ChipProps)
       type="button"
       onClick={onClick}
       className={cn(
-        'inline-flex items-center justify-center rounded-full px-4 min-h-[36px] text-sm font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-blue-600 outline-none',
+        'inline-flex items-center justify-center rounded-full px-4 min-h-[36px] text-sm font-semibold whitespace-nowrap',
+        'transition-all duration-150',
+        'focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 outline-none',
         selected
-          ? 'bg-blue-600 text-white'
-          : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50',
+          ? 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary'
+          : 'bg-surface-2 text-text-primary hover:bg-surface-3 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700',
         className,
       )}
     >

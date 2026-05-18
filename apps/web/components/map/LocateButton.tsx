@@ -1,6 +1,6 @@
 'use client'
 
-import { LocateFixed } from 'lucide-react'
+import { LocateFixed, Locate } from 'lucide-react'
 import { useMap } from 'react-leaflet'
 import { cn } from '@/lib/utils'
 
@@ -21,21 +21,34 @@ export function LocateButton({ userLocation, onRequest, loading = false }: Locat
     }
   }
 
+  const isLocated = !!userLocation
+
   return (
     <button
       type="button"
       onClick={handleClick}
-      aria-label="Usar minha localização"
+      aria-label={isLocated ? 'Centralizar na minha localização' : 'Usar minha localização'}
       className={cn(
-        'absolute bottom-20 right-4 z-[400] flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 transition-colors',
-        'hover:bg-gray-50 active:bg-gray-100 focus-visible:ring-2 focus-visible:ring-blue-600 outline-none',
-        loading && 'opacity-60 pointer-events-none',
+        'absolute bottom-24 right-4 z-[400]',
+        'flex h-12 w-12 items-center justify-center rounded-2xl',
+        'transition-all duration-200',
+        'outline-none focus-visible:ring-2 focus-visible:ring-primary ring-offset-2',
+        isLocated
+          ? 'bg-primary text-white shadow-primary-md hover:shadow-primary-lg hover:-translate-y-0.5 active:translate-y-0 active:shadow-primary-sm'
+          : 'bg-white text-text-muted shadow-card hover:shadow-card-hover hover:-translate-y-0.5 active:translate-y-0 dark:bg-gray-800 dark:text-gray-300',
+        loading && 'pointer-events-none',
       )}
     >
-      <LocateFixed
-        size={20}
-        className={cn('text-blue-600', loading && 'animate-spin')}
-      />
+      {/* Pulse ring when loading */}
+      {loading && (
+        <span className="absolute inset-0 rounded-2xl bg-primary animate-pulse-ring opacity-60" />
+      )}
+
+      {isLocated ? (
+        <LocateFixed size={20} strokeWidth={2.5} />
+      ) : (
+        <Locate size={20} strokeWidth={2} className={loading ? 'animate-pulse' : ''} />
+      )}
     </button>
   )
 }

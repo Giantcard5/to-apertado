@@ -1,12 +1,14 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
 import { Providers } from './providers'
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-jakarta',
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -16,7 +18,7 @@ export const metadata: Metadata = {
   },
   description: 'Banheiros de SP — rápido, honesto, crowdsourced',
   manifest: '/manifest.json',
-  themeColor: '#2563EB',
+  themeColor: '#1A6BFF',
   viewport: {
     width: 'device-width',
     initialScale: 1,
@@ -25,7 +27,7 @@ export const metadata: Metadata = {
   },
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
+    statusBarStyle: 'black-translucent',
     title: 'Tô Apertado',
   },
   icons: {
@@ -47,7 +49,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${jakarta.variable} font-sans`}>
         <Providers>{children}</Providers>
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT && (
           <Script
